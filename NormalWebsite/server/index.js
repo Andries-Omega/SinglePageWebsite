@@ -18,7 +18,9 @@ createServer((req, res) => {
 })
 
 function loadPage(res, pageName) {
-    readFile(`./pages/${pageName}.html`, (err, data) => {
+    const pagePath = existsSync(`pages/${pageName}.html`) ? `pages/${pageName}.html` : "pages/not-found.html"
+
+    readFile(pagePath, (err, data) => {
         if(err){
             res.end('Something went wrong')
         }
