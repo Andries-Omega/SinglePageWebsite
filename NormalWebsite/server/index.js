@@ -1,34 +1,40 @@
 import { createServer } from 'http'
-import { readFile } from 'fs'
+import { readFile, existsSync } from 'fs'
 const Port = 3040;
 
 createServer((req, res) => {
-   switch(req.url){
-    case "/":
-        loadPage(res, "./pages/home.html")
-        return;
-    case "/home":
-        loadPage(res, "./pages/home.html")
-        return;
-    case "/second-page":
-        loadPage(res, "./pages/second-page.html")
-        return;
-    default:
-        loadPage(res, "./pages/not-found.html")
+    if(req.url.split(".").length === 1) {
+        loadPage(res, req.url.slice(1))
         return
-   }
+    }
+
+    if (existsSync(req.url.slice(1))){
+        loadFile(res, req.url.slice(1))
+    }else {
+        res.end()
+    }
 }).listen(Port, "localhost", null, () => {
     console.log(`Non single page website on http://localhost:${Port}`)
 })
 
-function loadPage(res, pageLocation) {
-    readFile(pageLocation, (err, data) => {
+function loadPage(res, pageName) {
+    readFile(`./pages/${pageName}.html`, (err, data) => {
         if(err){
             res.end('Something went wrong')
         }
 
         res.writeHead(200, {"Content-Type": "text/html"});
-        res.write(data)
-        res.end()
+        res.end(data, "utf-8")
     })
+}
+
+function loadFile(res, fileName) {
+    readFile(fileName, (err, data) => {
+        if(err){
+            res.end('Something went wrong')
+        }
+
+        res.writeHead(200, {"Content-Type": "text/css"}) // Because i have put a full stop that only css will be fetched in this server
+        res.end(data, "utf-8")
+    })      
 }
