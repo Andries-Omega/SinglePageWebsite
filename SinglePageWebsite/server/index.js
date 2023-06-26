@@ -3,7 +3,7 @@ import { readFile, existsSync } from 'fs'
 const Port = 3050;
  
 createServer((req, res) => {
-    if(req.url === '/'){
+    if(req.url.split(".").length === 1){
         loadFile(res, "index.html")
         return;
     }

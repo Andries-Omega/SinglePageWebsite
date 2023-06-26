@@ -40,9 +40,13 @@ nav {
 
 .link {
   text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1rem;
 }
 
-a,
+button,
 h1 {
   color: #f1f5f9;
 }
