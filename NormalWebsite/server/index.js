@@ -4,12 +4,11 @@ const Port = 3040;
 
 createServer((req, res) => {
     if(req.url.split(".").length === 1) {
-        loadPage(res, req.url.slice(1))
-        return
+        return loadPage(res, req.url.slice(1))
     }
 
     if (existsSync(req.url.slice(1))){
-        loadFile(res, req.url.slice(1))
+        return loadFile(res, req.url.slice(1))
     }else {
         res.end()
     }
