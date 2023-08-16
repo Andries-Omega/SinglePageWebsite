@@ -26,7 +26,7 @@ function loadFile(res, fileName) {
 
         const fileNameSuffix = fileName.split('.')[1]
 
-        const contentType = fileNameSuffix === 'js' ? "application/javascript" :  `text/${fileName.split('.')[1]}`
+        const contentType = fileNameSuffix === 'js' ? "application/javascript" :  `text/${fileNameSuffix}`
 
         res.writeHead(200, {"Content-Type": contentType})
         
