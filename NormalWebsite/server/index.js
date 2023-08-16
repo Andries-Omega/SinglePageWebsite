@@ -6,7 +6,6 @@ createServer((req, res) => {
     if(req.url.split(".").length === 1) {
         return loadPage(res, req.url.slice(1))
     }
-
     if (existsSync(req.url.slice(1))){
         return loadFile(res, req.url.slice(1))
     }else {
@@ -19,14 +18,7 @@ createServer((req, res) => {
 function loadPage(res, pageName) {
     const pagePath = existsSync(`pages/${pageName}.html`) ? `pages/${pageName}.html` : "pages/not-found.html"
 
-    readFile(pagePath, (err, data) => {
-        if(err){
-            res.end('Something went wrong')
-        }
-
-        res.writeHead(200, {"Content-Type": "text/html"});
-        res.end(data, "utf-8")
-    })
+    loadFile(res, pagePath)
 }
 
 function loadFile(res, fileName) {
@@ -35,7 +27,7 @@ function loadFile(res, fileName) {
             res.end('Something went wrong')
         }
 
-        res.writeHead(200, {"Content-Type": "text/css"}) // Because i have put a full stop that only css will be fetched in this server
+        res.writeHead(200, {"Content-Type": `text/${fileName.split(".")[1]}`})
         res.end(data, "utf-8")
     })      
 }
